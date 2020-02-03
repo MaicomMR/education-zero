@@ -1,0 +1,136 @@
+
+# [ENG] This line set the docker-compose version
+# [PT-BR] Essa linha define a versão do docker-compose a ser utilizada
+version: '3'
+
+# [ENG] With 'services:' you open a list of services of your docker
+# [PT-BR] Com o comando "services:" você abre uma lista de serviços para o seu docker
+services:
+
+# [ENG] app is the name of our base service, we will add the laravel framework to this service
+# [PT-BR] app será o nosso principal serviço, implementaremos os pacotes de laravel nessa aplicação
+ app:
+
+  # ==================   IMPORTANT(E)   ===================
+  # [ENG] Watch with caution to the identation fo this document
+  # [PT-BR] Observe com atenção a identação deste documento
+
+
+  # [ENG] The build field will provide the path to "Dockerfile", -
+  # ...in this case, a dot say the Dockerfile is on the same folder of this file
+
+  # [PT-BR] O campo build deverá informar o caminho para o seu arquivo "Dockerfile", -
+  # ...neste caso, um ponto indica que o arquivo esta na mesma pasta que este arquivo.
+  build: .
+
+  # [ENG] The name of your application
+  # [PT-BR] O nome da sua aplicação
+  container_name: app
+
+  # [ENG] Volumes are shared folders with your application and your local machine
+  # On this case, the base volume are this folder with sync on "/var/www" server folder
+
+  # [PT-BR] Volumes são como pastas compartilhadas entre a sua aplicação e a sua máquina local
+  # Neste caso estamos indicando que a posta local vai ser sincronizada com a pasta
+  # "/var/www" do servidor da sua aplicação
+  volumes:
+   - .:/var/www
+
+  # [ENG] The networks field you can specify what connection your container will stay connected
+  # If you want to add or remove networks see on finish of this file
+
+  # [PT-BR] Em networks você vai definir a quais conexões o seu container deverá permanecer
+  # conectado. Se você deseja adicionar, editar ou remover conexões veja as últimas linhas
+  # deste arquivo
+  networks:
+   - app-network
+
+   # [ENG] Depends_on will schedule your containers up process, on this case, DB and Redis will booted first
+   # however, this will not guarantee the service are available
+
+   # [PT-BR] Este campo vai garantir que os outros containers sejam levantados antes deste, porém,
+   # não garante a disponibilidade destes containers
+  depends_on:
+   - db
+   - redis
+
+   # [ENG] Entrypoint are the first thing if your container will execute after stay up
+   # On this case we are using "dockerize" to check the connection with the database 
+   # container and an "php-fpm" to start the php
+
+   # [PT-BR] Entrypoint armazena as instruções que serão rodadas assim que o seu container
+   # estiver em pé, neste caso estamos utilizando "dockerize" para checar a disponibilidade do
+   # banco de dados, logo, é executado um php-fpm para iniciar o php
+
+  entrypoint: dockerize -wait tcp://db:3306 -timeout 10s php-fpm
+
+   # [ENG] Nginx container/service
+   # [PT-BR] Container/serviço referente ao nginx
+ nginx:
+   build: .docker/nginx
+   container_name: nginx
+
+   # [ENG] The restart field say to the service if this down, they will restart with some timeout or always
+   # [PT-BR] O campo restart indica que caso o seu serviço caia, ele será levantado novamente, você pode
+   # passar parâmetros de timeout ou o always(para reiniciar sempre que cair)
+   restart: always
+
+   # [ENG] tty will allow or not you to acess the cointainer on the console, like bash, for example
+   # [PT-BR] tty vai permitir ou não que você acesse o seu container através do console,
+   # como utilizar o bash, por exemplo
+   tty: true
+
+   # [ENG] ports if your container will use, always in order local:container
+   # [PT-BR] portas que serão utilizadas pelo container, sempre na semântica local:container
+   ports:
+    - "8000:80"
+   volumes:
+    - .:/var/www
+   networks:
+    - app-network
+   depends_on:
+    - app
+
+ redis:
+
+  # [ENG] If you want to use an renomed image to build a container, just use image and the image name/tag
+  # [PT-BR] Se você deseja usar uma imagem conhecida para "buildar" um container, utilize o campo image
+  # e passe o nome da imagem seguido da tag
+  image: redis:alpine
+
+  # [ENG] Expose will expose a port of your container
+  # [PT-BR] Expose vai expor uma porta do seu container
+  expose:
+   - 6379
+  networks:
+    - app-network
+
+ db:
+  image: mysql:5.7
+  command: --innodb-use-native-aio=0
+  container_name: db
+  restart: always
+  tty: true
+  ports:
+   - "3306:3306"
+
+   # [ENG] environment are variables, in this case, MySQL will automatically understand your 
+   # are passing the name, password and user
+
+   # [PT-BR] environment são variáveis de ambiente, neste caso, o MySQL identifica que está sendo passado
+   # o nome do banco, do usuário e a senha de acesso ao banco
+  environment:
+    - MYSQL_DATABASE=laravel
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_USER=root
+  networks:
+   - app-network
+  volumes:
+   - ./.docker/dbdata:/var/lib/mysql
+
+
+# [ENG] Take care, networks are out of services, here you can define your networks
+# [PT-BR] Tome cuidado, networks não fica dentro de serviços, aqui você pode definiar as suas redes
+networks:
+ app-network:
+  driver: bridge
