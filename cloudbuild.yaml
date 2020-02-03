@@ -1,0 +1,4 @@
+steps:
+- name: 'gcr.io/$PROJECT_ID/docker-compose'
+ id: "Running docker-compose"
+ args: ['-f', 'docker-compose.cloudbuild.yml', 'up', '-d']
