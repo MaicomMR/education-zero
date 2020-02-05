@@ -20,7 +20,7 @@
       name: 'gcr.io/cloud-builders/docker'
 
     - id: "Running docker PS 2"
-      args: ['ps']
+      args: ['logs', 'db']
       name: 'gcr.io/cloud-builders/docker'
 
     - id: "Running Migrations"
