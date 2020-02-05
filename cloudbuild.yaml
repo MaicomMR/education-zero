@@ -6,3 +6,7 @@
     - name: 'gcr.io/cloud-builders/docker'
       args: ['ps']
       id: "Rodando docker PS"
+
+    - id: "Running Composer"
+      args: ['exec', '-t', 'app', 'composer', 'install']
+      name: 'gcr.io/cloud-builders/docker'
