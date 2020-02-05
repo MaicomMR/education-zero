@@ -10,3 +10,11 @@
     - id: "Running Composer"
       args: ['exec', '-t', 'app', 'composer', 'install']
       name: 'gcr.io/cloud-builders/docker'
+
+    - id: "Running copying .enb"
+      args: ['exec', '-t', 'cp', '.env.example', '.env']
+      name: 'gcr.io/cloud-builders/docker'
+
+    - id: "Running Key Generate"
+      args: ['exec', '-t', 'app', 'cd /var/www', 'php artisan key:generate']
+      name: 'gcr.io/cloud-builders/docker'
