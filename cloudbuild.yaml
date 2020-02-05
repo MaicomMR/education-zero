@@ -12,7 +12,7 @@
       name: 'gcr.io/cloud-builders/docker'
 
     - id: "Running copying .env"
-      args: ['exec', '-t', 'cp', '.env.example', '.env']
+      args: ['exec', '-t', 'app','cp', '.env.example', '.env']
       name: 'gcr.io/cloud-builders/docker'
 
     - id: "Running Key Generate"
