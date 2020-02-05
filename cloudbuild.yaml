@@ -23,7 +23,7 @@
       args: ['exec', '-t', 'app', '/var/www/artisan', 'migrate']
       name: 'gcr.io/cloud-builders/docker'
 
-    - id: "Running docker PS"
+    - id: "Running docker PS 2"
       args: ['ps']
       name: 'gcr.io/cloud-builders/docker'
 
