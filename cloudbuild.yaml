@@ -11,7 +11,7 @@
       args: ['exec', '-t', 'app', 'composer', 'install']
       name: 'gcr.io/cloud-builders/docker'
 
-    - id: "Running copying .enb"
+    - id: "Running copying .env"
       args: ['exec', '-t', 'cp', '.env.example', '.env']
       name: 'gcr.io/cloud-builders/docker'
 
