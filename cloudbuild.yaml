@@ -16,5 +16,5 @@
       name: 'gcr.io/cloud-builders/docker'
 
     - id: "Running Key Generate"
-      args: ['exec', '-t', 'app', 'cd /var/www', 'php artisan key:generate']
+      args: ['exec', '-t', 'app', 'cd /var/www/artisan', 'php artisan key:generate']
       name: 'gcr.io/cloud-builders/docker'
