@@ -23,6 +23,6 @@
       args: ['exec', '-t', 'app', '/var/www/artisan', 'migrate']
       name: 'gcr.io/cloud-builders/docker'
 
-      - id: "Running Tests - PHPUnit"
+    - id: "Running Tests - PHPUnit"
       args: ['exec', '-t', 'app', '/var/www/bin/phpunit', '-c', '/var/www/phpunit.xml']
       name: 'gcr.io/cloud-builders/docker'
