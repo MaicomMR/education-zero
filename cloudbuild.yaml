@@ -1,5 +1,5 @@
  steps:
-    - name: 'gcr.io/$PROJECT_ID/ms-google-cloud-builder-dockerfile'
+    - name: 'gcr.io/$PROJECT_ID/github.com/maicommr/ms-google-cloud-builder-dockerfile'
       args: ['-f', 'docker-compose.cloudbuild.yml', 'up', '-d']
       id: 
 
