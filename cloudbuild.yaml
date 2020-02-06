@@ -23,16 +23,10 @@
       args: ['logs', 'db']
       name: 'gcr.io/cloud-builders/docker'
 
-    # - id: "Giving permission to write on DB" 
-    #   args: ['sudo chown -R 1000 .docker']
-    #   name: 'gcr.io/cloud-builders/bash'
-
     - id: "Running Migrations"
       args: ['exec', '-t', 'app', '/var/www/artisan', 'migrate']
       name: 'gcr.io/cloud-builders/docker'
 
     - id: "Running Tests - PHPUnit"
-      args: ['exec', '-t', 'app', '/var/www/bin/phpunit', '-c', '/var/www/phpunit.xml']
+      args: ['exec', '-t', 'app', '/var/www/vendor/bin/phpunit', '-c', '/var/www/phpunit.xml']
       name: 'gcr.io/cloud-builders/docker'
-
-      
