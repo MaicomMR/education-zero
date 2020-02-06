@@ -3,10 +3,6 @@
       args: ['-f', 'docker-compose.cloudbuild.yml', 'up', '-d']
       name: 'gcr.io/$PROJECT_ID/docker-compose:1.24.0'
 
-    - id: "Running docker PS"
-      args: ['ps']
-      name: 'gcr.io/cloud-builders/docker'
-
     - id: "Running Composer"
       args: ['exec', '-t', 'app', 'composer', 'install']
       name: 'gcr.io/cloud-builders/docker'
@@ -19,14 +15,14 @@
       args: ['exec', '-t', 'app', '/var/www/artisan', 'key:generate']
       name: 'gcr.io/cloud-builders/docker'
 
-    - id: "Running docker PS 2"
-      args: ['logs', 'db']
-      name: 'gcr.io/cloud-builders/docker'
-
     - id: "Running Migrations"
       args: ['exec', '-t', 'app', '/var/www/artisan', 'migrate']
       name: 'gcr.io/cloud-builders/docker'
 
     - id: "Running Tests - PHPUnit"
       args: ['exec', '-t', 'app', '/var/www/vendor/bin/phpunit', '-c', '/var/www/phpunit.xml']
+      name: 'gcr.io/cloud-builders/docker'
+
+    - id: "Running docker PS"
+      args: ['ps']
       name: 'gcr.io/cloud-builders/docker'
