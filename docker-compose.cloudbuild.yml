@@ -13,6 +13,7 @@ services:
    - db
    - redis
 #   entrypoint: "dockerize -template ./.docker/app/.env:.env -wait tcp://db:3306 -timeout 30s ./.docker/entrypoint.sh"
+# Test CI on GitHub
 
  nginx:
   build: .docker/nginx
