@@ -9,6 +9,8 @@ RUN apk add --no-cache openssl
 RUN docker-php-ext-install pdo pdo_mysql
 
 RUN usermod -u 1000 www-data
+RUN chown -R www-data:www-data /var/www
+
 
 COPY ./.docker/entrypoint.sh /
 
