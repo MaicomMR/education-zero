@@ -4,7 +4,7 @@ services:
  app:
   build: .
   image: maicommr/laravel-app
-  container_name: app
+  container_name: stories-education
   volumes:
    - .:/var/www
   networks:
@@ -22,7 +22,7 @@ services:
 
  nginx:
   build: .docker/nginx
-  container_name: nginx
+  container_name: stories-education-nginx
   entrypoint: dockerize -template /etc/nginx/conf.d/nginx.conf:/etc/nginx/conf.d/nginx.conf nginx -g "daemon off";
   environment:
    - APP_NAME=app
@@ -30,19 +30,18 @@ services:
   restart: always
   tty: true
   ports:
-   - "8000:80"
+   - "8010:80"
   volumes:
    - .:/var/www
   networks:
    - app-network
   depends_on:
    - app
-  # entrypoint: dockerize -template ./.docker/nginx/nginx.conf:/etc/nginx/conf.d
-
-
+  #entrypoint: dockerize -template .docker/nginx/nginx.conf:/etc/nginx/conf.d
 
  redis:
   image: redis:alpine
+  container_name: stories-education-redis
   expose:
    - 6379
   networks:
@@ -51,11 +50,11 @@ services:
  db:
   image: mysql:5.7
   command: --innodb-use-native-aio=0
-  container_name: atlas-guidelines-database
+  container_name: stories-education-database
   restart: always
   tty: true
   ports:
-   - "3401:3306"
+   - "3402:3306"
   environment:
    - MYSQL_DATABASE=laravel
    - MYSQL_ROOT_PASSWORD=root
