@@ -32,7 +32,7 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-       return $this->create($request->all());
+       return $this->eventRepository->create($request->all());
     }
 
     /**
