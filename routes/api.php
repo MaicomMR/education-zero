@@ -16,3 +16,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/**
+ * Event Routes
+ */
+Route::get('/v1/events', 'EventController@index')->name('event.index');
+Route::post('/v1/events', 'EventController@store')->name('event.store');
+Route::put('/v1/events', 'EventController@update')->name('event.update');
