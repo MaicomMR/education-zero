@@ -16,9 +16,13 @@ class CreateTableEvents extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
+            $table->unsignedBigInteger('creator_id');
+            $table->foreign('creator_id')->references('id')->on('users');
             $table->string('location');
             $table->text('description');
             $table->float('price', 8, 2);
+            $table->tinyInteger('how_many_participants');
+            $table->tinyInteger('minimum_participants');
             $table->datetime('event_date');
             $table->timestamps();
         });
