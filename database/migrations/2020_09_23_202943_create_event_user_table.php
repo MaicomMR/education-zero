@@ -18,7 +18,7 @@ class CreateEventUserTable extends Migration
             $table->unsignedBigInteger('user');
             $table->foreign('user')->references('id')->on('users');
             $table->unsignedBigInteger('event');
-            $table->foreign('event')->references('id')->on('event');
+            $table->foreign('event')->references('id')->on('events');
             $table->float('how_much', 8, 2);
             $table->timestamps();
         });
